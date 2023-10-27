@@ -13,7 +13,11 @@ type HandValue = {
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Call POST /hands and pass arrays of 5 cards: [[TH 9C 8D 7S 6C], [2S 3S 4S 5S 6S]]].';
+    return 'Call POST /hands and pass arrays of 5 cards: [["TH", "9C", "8D", "7S", "6C"], ["2S", "3S", "4S", "5S", "6S"]].';
+  }
+
+  static sortCards(cards: string[]) {
+    return cards.sort((a, b) => rank.indexOf(a[0]) - rank.indexOf(b[0]));
   }
 
   evaluateHands(hands: string[][]) {
@@ -30,7 +34,7 @@ export class AppService {
       );
       const ranks = new Map<string, number>();
       const suits = new Map<string, number>();
-      let isFlush = true;
+      let isStraight = true;
       for (let j = 0; j < hand.length; j++) {
         const [currentRank, currentSuit] = hand[j];
         if (uniqueCards.has(hand[j])) {
@@ -44,10 +48,10 @@ export class AppService {
 
         if (
           j <= 3 &&
-          isFlush &&
+          isStraight &&
           rank.indexOf(currentRank) + 1 != rank.indexOf(hand[j + 1][0])
         ) {
-          isFlush = false;
+          isStraight = false;
         }
       }
 
@@ -55,8 +59,8 @@ export class AppService {
         hand,
         ranks,
         suits,
-        isFlush,
-        isStraight: suits.size === 1,
+        isFlush: suits.size === 1,
+        isStraight,
         score: 0,
       });
       handValues.push(handValue);
@@ -76,16 +80,13 @@ export class AppService {
     });
   }
 
-  private evaluateTop2Hands(handValues: HandValue[]) {
-    if (
-      handValues[0].score === handValues[1].score &&
-      handValues[0].hand[0] === handValues[1].hand[0]
-    ) {
-      return `tie for hands ${handValues[0].hand.join(
+  private evaluateTop2Hands([first, second]: HandValue[]) {
+    if (first.score === second.score && first.hand[0] === second.hand[0]) {
+      return `tie for hands ${first.hand.join(' ')} and ${second.hand.join(
         ' ',
-      )} and ${handValues[1].hand.join(' ')}`;
+      )}`;
     }
-    return handValues[0].hand.join(' ');
+    return first.hand.join(' ');
   }
 
   private setScore(hand: HandValue) {
@@ -109,7 +110,7 @@ export class AppService {
         }
       }
       if (count === 2) {
-        if (score == 0 || score == 2) {
+        if (score === 0 || score === 2) {
           //one pair or two pair
           score += 2;
         } else {
