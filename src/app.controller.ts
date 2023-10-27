@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { handSchema } from './app.schema';
+import { PokerHandsDto } from './pokerhands.dto';
 
 @Controller()
 export class AppController {
@@ -19,7 +20,7 @@ export class AppController {
   }
 
   @Post('hands')
-  evaluateHand(@Body() body: Body): string {
+  evaluateHand(@Body() body: PokerHandsDto): string {
     try {
       const validHands = handSchema.parse(body);
       return this.appService.evaluateHands(validHands.hands);
