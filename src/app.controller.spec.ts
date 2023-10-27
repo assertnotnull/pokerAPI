@@ -14,13 +14,6 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return the default message', () => {
-      expect(appController.getHello()).toBe(
-        'Call POST /hands and pass arrays of 5 cards: [["TH", "9C", "8D", "7S", "6C"], ["2S", "3S", "4S", "5S", "6S"]].',
-      );
-    });
-  });
   describe('poker hands', () => {
     it('should return "Black wins. - with high card: 9"', () => {
       const body = {

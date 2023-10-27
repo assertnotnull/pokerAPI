@@ -14,11 +14,6 @@ import { PokerHandsDto } from './pokerhands.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @Post('hands')
   evaluateHand(@Body() body: PokerHandsDto): string {
     try {

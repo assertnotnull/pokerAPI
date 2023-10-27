@@ -12,10 +12,6 @@ type HandValue = {
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Call POST /hands and pass arrays of 5 cards: [["TH", "9C", "8D", "7S", "6C"], ["2S", "3S", "4S", "5S", "6S"]].';
-  }
-
   static sortCards(cards: string[]) {
     return cards.sort((a, b) => rank.indexOf(a[0]) - rank.indexOf(b[0]));
   }
