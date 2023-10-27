@@ -8,7 +8,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Poker Hands')
     .setDescription('The Poker Hands API')
-    .setVersion('1,0')
+    .setVersion('1.0')
     .build();
   const doc = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, doc);
