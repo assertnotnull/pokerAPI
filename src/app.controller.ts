@@ -10,7 +10,7 @@ import { AppService } from './app.service';
 import { handSchema } from './app.schema';
 import { PokerHandsDto } from './pokerhands.dto';
 
-@Controller()
+@Controller('api')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
