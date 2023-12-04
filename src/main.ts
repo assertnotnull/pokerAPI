@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,5 +15,8 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, doc);
 
   await app.listen(3000);
+  Logger.debug(
+    `Application running on localhost:3000, Swagger on http://localhost:3000/api`,
+  );
 }
 bootstrap();
