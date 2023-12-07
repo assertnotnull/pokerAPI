@@ -10,6 +10,8 @@ type HandValue = {
   score: number;
 };
 
+const lowStraight = ['A', '2', '3', '4', '5'];
+
 @Injectable()
 export class AppService {
   static sortCards(cards: string[]) {
@@ -36,7 +38,7 @@ export class AppService {
         if (uniqueCards.has(hand[j])) {
           return `duplicate card ${hand[j]} in ${hand} and ${uniqueCards.get(
             hand[j],
-          )}}`;
+          )}`;
         }
         uniqueCards.set(hand[j], hand);
         ranks.set(currentRank, (ranks.get(currentRank) || 0) + 1);
@@ -87,6 +89,12 @@ export class AppService {
 
   private setScore(hand: HandValue) {
     let score = 0;
+    if (
+      [...hand.ranks.keys()].every((r) => lowStraight.includes(r)) &&
+      hand.suits.size == 1
+    ) {
+      score = 12;
+    }
     if (hand.isStraight) {
       score += 6;
     }
