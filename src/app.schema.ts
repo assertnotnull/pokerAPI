@@ -17,7 +17,7 @@ export const rank = [
   '2',
 ];
 
-//a card is like 'T♠'
+//a card is like 'TS'
 export const handSchema = z.object({
   hands: z
     .string()
